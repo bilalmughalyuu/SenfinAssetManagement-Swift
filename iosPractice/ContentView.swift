@@ -1,15 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
+    @StateObject private var userViewModel = UserViewModel()
+    
     var body: some View {
-        VStack {
-            LoginView()
-        }
+        LoginView()
+            .environmentObject(userViewModel)
     }
 }
 
 #Preview {
     ContentView()
-            .environmentObject(UserViewModel())
 }

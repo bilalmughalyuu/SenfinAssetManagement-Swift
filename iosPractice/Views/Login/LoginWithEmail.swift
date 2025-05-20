@@ -3,8 +3,8 @@ import SwiftUI
 struct LoginWithEmail: View {
     var navigateToHome: () -> Void
     
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var email: String = "jdeo50570@gmail.com"
+    @State private var password: String = "Ranu1234@"
     @State private var isSubmitted = false
     @State private var showPassword = false
     

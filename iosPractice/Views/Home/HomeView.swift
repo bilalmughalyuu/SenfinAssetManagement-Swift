@@ -3,11 +3,13 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject private var viewModel = HomeViewModel()
-    
     @EnvironmentObject var userViewModel: UserViewModel
+    @State private var selectedFund: Datum? = nil
+    
     
     var body: some View {
         let data = viewModel.funds?.data ?? []
+        
         VStack{
             VStack(spacing: 8) {
                 Spacer().frame(height: 32)
@@ -58,25 +60,31 @@ struct HomeView: View {
             .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
             
             List(data, id: \.fundCode) { item in
-                FundRowView(fund: item)
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
+                NavigationLink(destination: RedeemScreen(fund: item)) {
+                    FundRowView(fund: item) { _ in
+                        
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                
             }
-            
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
-//            .listRowSeparator(false)
+            .listRowSeparator(.hidden)
             
             Spacer()
         }
         .ignoresSafeArea()
         .task {
-            print("This is token --------- \(String(describing: userViewModel.userModel?.accessToken))")
-            if userViewModel.userModel != nil {
-                await viewModel.fetchfunds(token: userViewModel.userModel?.accessToken)
+            if let token = userViewModel.userModel?.accessToken {
+                await viewModel.fetchfunds(token: token)
             }
+            
         }
     }
+    
 }
 
 extension View {

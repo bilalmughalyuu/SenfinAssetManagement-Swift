@@ -1,12 +1,12 @@
 import Foundation
 
-struct FundsModel: Codable, Identifiable {
+struct FundsModel: Hashable, Codable, Identifiable {
     var id: String { status }
     let status: String
     let data: [Datum]
 }
 
-struct Datum: Codable, Identifiable {
+struct Datum: Hashable, Codable, Identifiable {
     var id: String { fundCode }
     let fundCode: String
     let fundName: String
@@ -53,7 +53,7 @@ struct Datum: Codable, Identifiable {
     }
 }
 
-struct Account: Codable, Identifiable {
+struct Account: Hashable, Codable, Identifiable {
     var id: String { accountNo }
     let accountNo: String
     let blockNoOfUnit: String

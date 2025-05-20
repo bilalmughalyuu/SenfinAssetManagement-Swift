@@ -9,7 +9,6 @@ struct TabItem: View {
     let isActive: Bool
     
     var body: some View {
-        
         Text(title)
             .foregroundColor(isActive ? .white : .black)
             .fontWeight(isActive ? .bold : .regular)
@@ -26,11 +25,9 @@ struct LoginView: View {
     @State private var path = NavigationPath()
     
     @State private var isLoggedIn: Bool = false
-    
     @State private var tabIndex: Int = 0
     
     var body: some View {
-        
         NavigationStack(path: $path) {
             ZStack(alignment: .leading) {
                 VStack(alignment: .leading) {
@@ -66,8 +63,6 @@ struct LoginView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                     
-                    
-                    
                     Spacer().frame(height: 40)
                     
                     LoginWithEmail(navigateToHome: {
@@ -78,12 +73,11 @@ struct LoginView: View {
                     
                     HStack {
                         Spacer()
-                        Text("Don't have account? Creare one")
+                        Text("Don't have account? Create one")
                             .font(.caption)
                             .underline()
                     }
                     .frame(maxWidth: .infinity)
-                    
                 }
                 .padding(.horizontal, 24)
                 
@@ -107,7 +101,11 @@ struct LoginView: View {
             .navigationDestination(for: LoginNavigation.self) { destination in
                 switch destination {
                 case .home:
+                    // Pass the viewModel to HomeView so it has access to the same user data
                     HomeView()
+                        .environmentObject(viewModel)
+                        // Important: Don't create another NavigationStack inside HomeView
+                        .navigationBarBackButtonHidden(true)
                 }
             }
             .onChange(of: isLoggedIn) {
@@ -115,12 +113,11 @@ struct LoginView: View {
                     path.append(LoginNavigation.home)
                 }
             }
-            
         }
+        .environmentObject(viewModel)
     }
 }
 
-#Preview {
-    LoginView()
-        .environmentObject(UserViewModel())
-}
+//#Preview {
+//    LoginView()
+//}
