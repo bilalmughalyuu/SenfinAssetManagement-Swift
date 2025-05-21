@@ -109,28 +109,5 @@ struct FundRowView: View {
 }
 
 #Preview("Single Fund Row") {
-    FundRowView(
-        fund: Datum(
-            fundCode: "10",
-            fundName: "Senfin Growth Fund",
-            priceDate: "2024-09-05",
-            creationPrice: "14.370000",
-            redimPrice: "13.960000",
-            type: "2",
-            color: "#B40431",
-            accounts: [
-                Account(
-                    accountNo: "0015602792121001",
-                    blockNoOfUnit: "0.00",
-                    pendingNoOfUnit: "0.00",
-                    noOfUnits: "189.50",
-                    transactionUnits: "189.50",
-                    redimPrice: "13.96",
-                    marketValue: "2645.42",
-                    name: nil,
-                    cost: "1500.00"
-                )
-            ]
-        )
-    )
+    FundRowView( fund: dummyData)
 }
