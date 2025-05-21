@@ -2,9 +2,7 @@ import SwiftUI
 
 struct FundRowView: View {
     let fund: Datum
-    @State private var isActive = false
-    
-    @Binding var path: NavigationPath
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     var body: some View {
         
@@ -42,7 +40,7 @@ struct FundRowView: View {
                             .font(.system(size: 12, weight: .regular))
                         
                         Button {
-                            path.append(LoginNavigation.invest(fund))
+                            coordinator.push(.invest(fund))
                         }  label: {
                             Text("Invest")
                                 .foregroundColor(Color.white)
@@ -61,7 +59,7 @@ struct FundRowView: View {
                             .font(.system(size: 12, weight: .regular))
                         
                         Button {
-                            path.append(LoginNavigation.redeem(fund))
+                            coordinator.push(.redeem(fund))
                         } label: {
                             Text("Redeem")
                                 .foregroundColor(.white)
@@ -112,8 +110,7 @@ struct FundRowView: View {
 
 #Preview("Single Fund Row") {
     FundRowView(
-        fund: dummyData,
-        path: .constant(NavigationPath())
+        fund: dummyData
     )
 }
 

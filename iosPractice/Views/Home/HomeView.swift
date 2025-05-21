@@ -12,7 +12,7 @@ struct HomeView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @State private var selectedFund: Datum? = nil
     
-    @Binding var path: NavigationPath
+    
     
     
     var body: some View {
@@ -69,7 +69,7 @@ struct HomeView: View {
                 .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
                 
                 List(data, id: \.fundCode) { item in
-                    FundRowView(fund: item, path: $path)
+                    FundRowView(fund: item)
                         .buttonStyle(PlainButtonStyle())
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
@@ -123,6 +123,6 @@ struct RoundedCorner: Shape {
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()))
+    HomeView()
         .environmentObject(UserViewModel())
 }

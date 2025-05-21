@@ -1,11 +1,5 @@
 import SwiftUI
 
-enum LoginNavigation: Hashable {
-    case home
-    case invest(Datum)
-    case redeem(Datum)
-}
-
 struct TabItem: View {
     let title: String
     let isActive: Bool
@@ -24,11 +18,11 @@ struct TabItem: View {
 
 struct LoginView: View {
     @StateObject private var viewModel = UserViewModel()
-    @State private var path = NavigationPath()
+    @EnvironmentObject var coordinator: NavigationCoordinator
     @State private var tabIndex: Int = 0
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $coordinator.path) {
             VStack(alignment: .leading) {
                 HStack {
                     Image("colorLogo")
@@ -61,7 +55,7 @@ struct LoginView: View {
                 Spacer().frame(height: 40)
                 
                 LoginWithEmail(navigateToHome: {
-                    path.append(LoginNavigation.home)
+                    coordinator.push(LoginNavigation.home)
                 })
                 
                 Spacer().frame(height: 40)
@@ -80,7 +74,7 @@ struct LoginView: View {
             .navigationDestination(for: LoginNavigation.self) { destination in
                 switch destination {
                 case .home:
-                    HomeView(path: $path)
+                    HomeView()
                         .environmentObject(viewModel)
                         .navigationBarBackButtonHidden(true)
                 case .invest(let fund):
