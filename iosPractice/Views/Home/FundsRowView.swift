@@ -52,8 +52,7 @@ struct FundRowView: View {
                         Text("Sell at \(String(format: "%.2f", Double(fund.redimPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
                         
-                        // We're keeping this for direct redeem functionality
-                        // The NavigationLink will handle the navigation separately
+                        
                         Button(action: {
                             onRedeemTap(fund)
                         }) {
