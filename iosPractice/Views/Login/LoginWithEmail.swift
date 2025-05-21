@@ -85,9 +85,9 @@ struct LoginWithEmail: View {
     }
 }
 
-#Preview {
-    LoginWithEmail(navigateToHome: {
-        print("Navigate to home triggered in preview")
-    })
-    .environmentObject(UserViewModel())
-}
+//#Preview {
+//    LoginWithEmail(navigateToHome: {
+//        print("Navigate to home triggered in preview")
+//    })
+//    .environmentObject(UserViewModel())
+//}

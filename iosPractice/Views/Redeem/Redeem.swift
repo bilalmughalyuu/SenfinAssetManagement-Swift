@@ -16,10 +16,12 @@ struct RedeemScreen: View {
     @State private var value: String = ""
     @State private var units: String = ""
     
+    @State private var isSubmitted: Bool = false
+    
     var body: some View {
         let totalCost = fund.accounts.reduce(0.0) { $0 + (Double($1.cost) ?? 0.0) }
         let totalMarketValue = fund.accounts.reduce(0.0) { $0 + (Double($1.marketValue) ?? 0.0) }
-        VStack(alignment: .leading, spacing: 16) {
+        ScrollView {
             HStack {
                 Button (action: {
                     dismiss()
@@ -92,23 +94,85 @@ struct RedeemScreen: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 16)
-            .layoutPriority(1)
+//            .layoutPriority(1)
             
             
             CustomPicker(title: "Select account",selectedItem: $selectedAccount, itemLists: $accountNumbers)
             
+            if(isSubmitted && selectedAccount.isEmpty) {
+                Text("Please select account to continue")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color.red)
+            }
+            
+            Spacer().frame(height: 16)
+            
+            
             CustomPicker(title: "Select redeem type",selectedItem: $selectedRedeemType, itemLists: $redeemTypes)
+            
+            if(isSubmitted && selectedRedeemType.isEmpty) {
+                Text("Please select redeem type to continue")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color.red)
+            }
+            
+            Spacer().frame(height: 16)
             
             if(selectedRedeemType == "Partial Withdrawl") {
                 CustomPicker(title: "Select redeem method",selectedItem: $selectedRedeemMethod, itemLists: $redeemMethodList)
                 
-//                if(!selectedRedeemMethod.isEmpty && selectedRedeemMethod == "By Units") {
-//                    TextField("Select units", $units)
-//                } else if (!selectedRedeemMethod.isEmpty && selectedRedeemMethod == "By Value") {
-//                    TextField("Select units", $value)
-//                }
+                if(isSubmitted && selectedRedeemMethod.isEmpty) {
+                    Text("Please select redeem type to continue")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color.red)
+                }
+                
+                Spacer().frame(height: 16)
+                
+                if !selectedRedeemMethod.isEmpty {
+                    VStack {
+                        if selectedRedeemMethod == "By Units" {
+                            TextField("Enter units", text: $units)
+                        } else if selectedRedeemMethod == "By Value" {
+                            TextField("Enter value", text: $value)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(8)
+                    
+//                    if(isSubmitted && units.isEmpty) {
+//                        Text("Please select redeem type to continue")
+//                            .font(.system(size: 12, weight: .regular))
+//                            .foregroundColor(Color.red)
+//                    }
+                }
+
             }
             
+            Spacer().frame(height: 16)
+            
+            VStack {
+                Text("Next")
+                    .foregroundColor(Color.white)
+            }
+            .frame(height: 40)
+            .frame(maxWidth: .infinity)
+            .background(Color.primaryColor)
+            .cornerRadius(12)
+            .onTapGesture {
+                isSubmitted = true
+                guard !selectedAccount.isEmpty,
+                      !selectedRedeemType.isEmpty,
+                      !selectedRedeemMethod.isEmpty else {
+                    print("Form is not filled")
+                    return
+                }
+
+                print("Form is filled")
+            }
+
             
             Spacer()
         }
@@ -124,4 +188,3 @@ struct RedeemScreen: View {
 #Preview {
     RedeemScreen(fund: dummyData)
 }
-
