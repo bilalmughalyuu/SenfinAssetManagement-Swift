@@ -64,6 +64,9 @@ struct HomeView: View {
                     FundRowView(fund: item) { _ in
                         
                     }
+                    .onTapGesture {
+                        
+                    }
                 }
                 .buttonStyle(PlainButtonStyle())
                 .listRowInsets(EdgeInsets())
