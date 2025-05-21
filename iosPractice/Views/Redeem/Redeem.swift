@@ -95,7 +95,7 @@ struct RedeemScreen: View {
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 16)
-    //            .layoutPriority(1)
+                //            .layoutPriority(1)
                 
                 
                 CustomPicker(title: "Select account",selectedItem: $selectedAccount, itemLists: $accountNumbers)
@@ -133,25 +133,50 @@ struct RedeemScreen: View {
                     if !selectedRedeemMethod.isEmpty {
                         VStack {
                             if selectedRedeemMethod == "By Units" {
-                                TextField("Enter units", text: $units)
-                                    .keyboardType(.numberPad)
+                                VStack(alignment: .leading) {
+                                    TextField("Enter units", text: $units)
+                                        .keyboardType(.numberPad)
+                                        .toolbar {
+                                            ToolbarItemGroup(placement: .keyboard) {
+                                                Spacer()
+                                                Button("Done") {
+                                                    
+                                                }
+                                            }
+                                        }
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 16)
+                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(8)
+                                    
+                                    if(isSubmitted && units.isEmpty) {
+                                        Text("Please enter units to continue")
+                                            .font(.system(size: 12, weight: .regular))
+                                            .foregroundColor(Color.red)
+                                    }
+                                    
+                                }
                             } else if selectedRedeemMethod == "By Value" {
-                                TextField("Enter value", text: $value)
-                                    .keyboardType(.numberPad)
+                                VStack(alignment: .leading){
+                                    TextField("Enter value", text: $value)
+                                        .keyboardType(.numberPad)
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 16)
+                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(8)
+                                    
+                                    if(isSubmitted && value.isEmpty) {
+                                        Text("Please enter units to continue")
+                                            .font(.system(size: 12, weight: .regular))
+                                            .foregroundColor(Color.red)
+                                    }
+                                }
                             }
                         }
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
                         
-    //                    if(isSubmitted && units.isEmpty) {
-    //                        Text("Please select redeem type to continue")
-    //                            .font(.system(size: 12, weight: .regular))
-    //                            .foregroundColor(Color.red)
-    //                    }
+                        
                     }
-
+                    
                 }
                 
                 Spacer().frame(height: 60)
@@ -172,7 +197,7 @@ struct RedeemScreen: View {
                         print("Form is not filled")
                         return
                     }
-
+                    
                     print("Form is filled")
                 }
             }
