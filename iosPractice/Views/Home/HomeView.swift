@@ -60,20 +60,10 @@ struct HomeView: View {
             .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
             
             List(data, id: \.fundCode) { item in
-                ZStack{
-                    NavigationLink(destination: RedeemScreen(fund: item)) {
-                        
-                    }
-                    .opacity(0)
-                    
-                    
-                    FundRowView(fund: item) { _ in
-                        
-                    }
-                                        .buttonStyle(PlainButtonStyle())
-                                        .listRowInsets(EdgeInsets())
-                                        .listRowBackground(Color.clear)
-                }
+                FundRowView(fund: item)
+                    .buttonStyle(PlainButtonStyle())
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
                 
             }
             .listStyle(PlainListStyle())

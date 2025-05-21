@@ -2,9 +2,12 @@ import SwiftUI
 
 struct FundRowView: View {
     let fund: Datum
-    let onRedeemTap: (Datum) -> Void
+    @State private var isActive = false
     
     var body: some View {
+        
+        
+        
         let totalCost = fund.accounts.reduce(0.0) { $0 + (Double($1.cost) ?? 0.0) }
         let totalMarketValue = fund.accounts.reduce(0.0) { $0 + (Double($1.marketValue) ?? 0.0) }
         
@@ -52,19 +55,33 @@ struct FundRowView: View {
                         Text("Sell at \(String(format: "%.2f", Double(fund.redimPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
                         
-                        
                         Button(action: {
-                            onRedeemTap(fund)
+                            isActive = true
                         }) {
                             Text("Redeem")
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                                 .font(.caption)
                                 .padding(.horizontal, 24)
                                 .padding(.vertical, 6)
                                 .background(Color(hex: "#de5353"))
                                 .cornerRadius(8)
-                                .opacity(1)
                         }
+                        .background(
+                            NavigationLink("", destination: RedeemScreen(fund: fund), isActive: $isActive)
+                                .hidden()
+                        )
+                        
+                        //                        NavigationLink(destination: RedeemScreen(fund: fund)) {
+                        //                            Text("Redeem")
+                        //                                .foregroundColor(.white)
+                        //                                .font(.caption)
+                        //                                .padding(.horizontal, 24)
+                        //                                .padding(.vertical, 6)
+                        //                                .background(Color(hex: "#de5353"))
+                        //                                .cornerRadius(8)
+                        //                        }
+                        //                        .buttonStyle(PlainButtonStyle())
+                        //                        .contentShape(Rectangle())
                     }
                     Spacer()
                 }
@@ -114,8 +131,6 @@ struct FundRowView: View {
                     cost: "1500.00"
                 )
             ]
-        ),
-        onRedeemTap: { fund in
-            print("Redeem tapped for fund: \(fund.fundCode)")
-        })
+        )
+    )
 }
