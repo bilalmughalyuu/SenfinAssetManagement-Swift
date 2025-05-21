@@ -4,6 +4,8 @@ struct FundRowView: View {
     let fund: Datum
     @State private var isActive = false
     
+    @Binding var path: NavigationPath
+    
     var body: some View {
         
         
@@ -39,14 +41,17 @@ struct FundRowView: View {
                         Text("Buy at \(String(format: "%.2f", Double(fund.creationPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
                         
-                        Text("Invest")
-                            .foregroundColor(Color.white)
-                            .font(.caption)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 6)
-                            .background(Color(hex: "#2a6877"))
-                            .cornerRadius(8)
-                            .opacity(1)
+                        Button {
+                            path.append(LoginNavigation.invest(fund))
+                        }  label: {
+                            Text("Invest")
+                                .foregroundColor(Color.white)
+                                .font(.caption)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 6)
+                                .background(Color(hex: "#2a6877"))
+                                .cornerRadius(8)
+                        }
                     }
                     
                     Spacer().frame(width: 24)
@@ -55,9 +60,9 @@ struct FundRowView: View {
                         Text("Sell at \(String(format: "%.2f", Double(fund.redimPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
                         
-                        Button(action: {
-                            isActive = true
-                        }) {
+                        Button {
+                            path.append(LoginNavigation.redeem(fund))
+                        } label: {
                             Text("Redeem")
                                 .foregroundColor(.white)
                                 .font(.caption)
@@ -66,10 +71,6 @@ struct FundRowView: View {
                                 .background(Color(hex: "#de5353"))
                                 .cornerRadius(8)
                         }
-                        .background(
-                            NavigationLink("", destination: RedeemScreen(fund: fund), isActive: $isActive)
-                                .hidden()
-                        )
                         
                         //                        NavigationLink(destination: RedeemScreen(fund: fund)) {
                         //                            Text("Redeem")
@@ -105,9 +106,14 @@ struct FundRowView: View {
         .padding(.horizontal, 24)
         .padding(.bottom, 16)
         .layoutPriority(1)
+        
     }
 }
 
 #Preview("Single Fund Row") {
-    FundRowView( fund: dummyData)
+    FundRowView(
+        fund: dummyData,
+        path: .constant(NavigationPath())
+    )
 }
+

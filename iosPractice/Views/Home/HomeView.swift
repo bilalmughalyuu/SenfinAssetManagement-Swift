@@ -1,84 +1,103 @@
 import SwiftUI
 
+enum FundDestination: Hashable {
+    case invest(Datum)
+    case redeem(Datum)
+}
+
+
 struct HomeView: View {
     
     @StateObject private var viewModel = HomeViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
     @State private var selectedFund: Datum? = nil
     
+    @Binding var path: NavigationPath
+    
     
     var body: some View {
         let data = viewModel.funds?.data ?? []
         
-        VStack{
-            VStack(spacing: 8) {
-                Spacer().frame(height: 32)
-                Image("colorLogo")
-                    .resizable()
-                    .frame(width: 188, height: 46)
-                
-                Spacer().frame(height: 16)
-                
-                HStack(alignment: .center) {
-                    VStack(alignment: .leading) {
-                        Text("Fixed Income")
-                            .font(.subheadline)
-                            .foregroundColor(Color(hex: "#2a6877"))
-                        
-                        Spacer().frame(height: 4)
-                        
-                        Text("149,863")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.black)
-                    }
+//        NavigationStack(path: $navigationPath) {
+            VStack{
+                VStack(spacing: 8) {
+                    Spacer().frame(height: 32)
+                    Image("colorLogo")
+                        .resizable()
+                        .frame(width: 188, height: 46)
                     
-                    Spacer().frame(width: 16)
+                    Spacer().frame(height: 16)
                     
-                    Rectangle()
-                        .frame(width: 1, height: 35)
-                        .foregroundColor(Color.black.opacity(0.3))
-                    
-                    Spacer().frame(width: 16)
-                    
-                    VStack(alignment: .leading) {
-                        Text("Equity")
-                            .font(.subheadline)
-                            .foregroundColor(Color(hex: "#2a6877"))
+                    HStack(alignment: .center) {
+                        VStack(alignment: .leading) {
+                            Text("Fixed Income")
+                                .font(.subheadline)
+                                .foregroundColor(Color(hex: "#2a6877"))
+                            
+                            Spacer().frame(height: 4)
+                            
+                            Text("149,863")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.black)
+                        }
                         
-                        Spacer().frame(height: 4)
+                        Spacer().frame(width: 16)
                         
-                        Text("3650.42")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.black)
+                        Rectangle()
+                            .frame(width: 1, height: 35)
+                            .foregroundColor(Color.black.opacity(0.3))
+                        
+                        Spacer().frame(width: 16)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Equity")
+                                .font(.subheadline)
+                                .foregroundColor(Color(hex: "#2a6877"))
+                            
+                            Spacer().frame(height: 4)
+                            
+                            Text("3650.42")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.black)
+                        }
                     }
                 }
+                .frame(height: 240)
+                .frame(maxWidth: .infinity)
+                .background(Color.white)
+                .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
+                .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
+                
+                List(data, id: \.fundCode) { item in
+                    FundRowView(fund: item, path: $path)
+                        .buttonStyle(PlainButtonStyle())
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                    
+                }
+                .listStyle(PlainListStyle())
+                .scrollIndicators(.hidden)
+                .listRowSeparator(.hidden)
+                
+                Spacer()
             }
-            .frame(height: 240)
-            .frame(maxWidth: .infinity)
-            .background(Color.white)
-            .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
-            .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
-            
-            List(data, id: \.fundCode) { item in
-                FundRowView(fund: item)
-                    .buttonStyle(PlainButtonStyle())
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
+            .ignoresSafeArea()
+            .task {
+                if let token = userViewModel.userModel?.accessToken {
+                    await viewModel.fetchfunds(token: token)
+                }
                 
             }
-            .listStyle(PlainListStyle())
-            .scrollIndicators(.hidden)
-            .listRowSeparator(.hidden)
-            
-            Spacer()
-        }
-        .ignoresSafeArea()
-        .task {
-            if let token = userViewModel.userModel?.accessToken {
-                await viewModel.fetchfunds(token: token)
-            }
-            
-        }
+//            .navigationDestination(for: FundDestination.self) { destination in
+//                switch destination {
+//                case .invest(let fund):
+//                    InvestScreen(fund: fund)
+//                case .redeem(let fund):
+//                    RedeemScreen(fund: fund)
+//                }
+//            }
+//            .navigationBarBackButtonHidden()
+//        }
     }
     
 }
@@ -104,6 +123,6 @@ struct RoundedCorner: Shape {
 }
 
 #Preview {
-    HomeView()
+    HomeView(path: .constant(NavigationPath()))
         .environmentObject(UserViewModel())
 }
