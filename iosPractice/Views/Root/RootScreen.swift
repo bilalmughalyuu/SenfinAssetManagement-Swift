@@ -10,19 +10,26 @@ struct RootScreen: View {
                     Image(systemName: "house")
                     Text("Home")
                 }
-
+            
             SearchScreen()
                 .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
+                    Label {
+                        Text("Transactions")
+                    } icon: {
+                        Image(systemName: "creditcard.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color.primaryColor)
+                    }
                 }
-
+            
             NotificationsScreen()
                 .tabItem {
                     Image(systemName: "bell")
                     Text("Notifications")
                 }
-
+            
             ProfileScreen()
                 .tabItem {
                     Image(systemName: "person.crop.circle")
