@@ -4,12 +4,24 @@ struct FundRowView: View {
     let fund: Datum
     @EnvironmentObject var coordinator: NavigationCoordinator
     
+    var totalCost: Double {
+        var cost = 0.0
+        fund.accounts.forEach { account in
+            cost += Double(account.cost) ?? 0.0
+        }
+        print(cost)
+        return cost
+    }
+    
+    var totalMarketValue: Double {
+        var marketValue = 0.0
+        fund.accounts.forEach { account in
+            marketValue += Double(account.marketValue) ?? 0.0
+        }
+        return marketValue
+    }
+    
     var body: some View {
-        
-        
-        
-        let totalCost = fund.accounts.reduce(0.0) { $0 + (Double($1.cost) ?? 0.0) }
-        let totalMarketValue = fund.accounts.reduce(0.0) { $0 + (Double($1.marketValue) ?? 0.0) }
         
         ZStack {
             VStack(alignment: .leading, spacing: 8) {
@@ -59,6 +71,7 @@ struct FundRowView: View {
                             .font(.system(size: 12, weight: .regular))
                         
                         Button {
+                            guard totalMarketValue > 0 else { return }
                             coordinator.push(.redeem(fund))
                         } label: {
                             Text("Redeem")
@@ -66,21 +79,10 @@ struct FundRowView: View {
                                 .font(.caption)
                                 .padding(.horizontal, 24)
                                 .padding(.vertical, 6)
-                                .background(Color(hex: "#de5353"))
+                                .disabled(totalMarketValue == 0)
+                                .background(totalMarketValue == 0 ? Color.disableRed : Color.red)
                                 .cornerRadius(8)
                         }
-                        
-                        //                        NavigationLink(destination: RedeemScreen(fund: fund)) {
-                        //                            Text("Redeem")
-                        //                                .foregroundColor(.white)
-                        //                                .font(.caption)
-                        //                                .padding(.horizontal, 24)
-                        //                                .padding(.vertical, 6)
-                        //                                .background(Color(hex: "#de5353"))
-                        //                                .cornerRadius(8)
-                        //                        }
-                        //                        .buttonStyle(PlainButtonStyle())
-                        //                        .contentShape(Rectangle())
                     }
                     Spacer()
                 }

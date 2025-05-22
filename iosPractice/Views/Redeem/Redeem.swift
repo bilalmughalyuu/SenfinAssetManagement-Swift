@@ -18,9 +18,28 @@ struct RedeemScreen: View {
     
     @State private var isSubmitted: Bool = false
     
+    @State private var selectedFundAccount: Account?
+    
+    @EnvironmentObject var coordinator: NavigationCoordinator
+    
+    var totalCost: Double {
+        var cost = 0.0
+        fund.accounts.forEach { account in
+            cost += Double(account.cost) ?? 0.0
+        }
+        print(cost)
+        return cost
+    }
+    
+    var totalMarketValue: Double {
+        var marketValue = 0.0
+        fund.accounts.forEach { account in
+            marketValue += Double(account.marketValue) ?? 0.0
+        }
+        return marketValue
+    }
+    
     var body: some View {
-        let totalCost = fund.accounts.reduce(0.0) { $0 + (Double($1.cost) ?? 0.0) }
-        let totalMarketValue = fund.accounts.reduce(0.0) { $0 + (Double($1.marketValue) ?? 0.0) }
         ScrollView {
             VStack (alignment: .leading){
                 HStack {
@@ -99,6 +118,10 @@ struct RedeemScreen: View {
                 
                 
                 CustomPicker(title: "Select account",selectedItem: $selectedAccount, itemLists: $accountNumbers)
+                    .onChange(of: selectedAccount) {
+                        selectedFundAccount = fund.accounts.first(where: { $0.accountNo == selectedAccount })
+                    }
+                
                 
                 if(isSubmitted && selectedAccount.isEmpty) {
                     Text("Please select account to continue")
@@ -136,14 +159,6 @@ struct RedeemScreen: View {
                                 VStack(alignment: .leading) {
                                     TextField("Enter units", text: $units)
                                         .keyboardType(.numberPad)
-                                        .toolbar {
-                                            ToolbarItemGroup(placement: .keyboard) {
-                                                Spacer()
-                                                Button("Done") {
-                                                    
-                                                }
-                                            }
-                                        }
                                         .padding(.vertical, 8)
                                         .padding(.horizontal, 16)
                                         .background(Color.gray.opacity(0.2))
@@ -154,6 +169,11 @@ struct RedeemScreen: View {
                                             .font(.system(size: 12, weight: .regular))
                                             .foregroundColor(Color.red)
                                     }
+                                    
+                                    Spacer().frame(height: 32)
+                                    
+                                    Text("Available Units \(String(format: "%.2f", (Double(selectedFundAccount?.transactionUnits ?? "0") ?? 0.0)))")
+                                        .font(.system(size: 14))
                                     
                                 }
                             } else if selectedRedeemMethod == "By Value" {
@@ -170,6 +190,12 @@ struct RedeemScreen: View {
                                             .font(.system(size: 12, weight: .regular))
                                             .foregroundColor(Color.red)
                                     }
+                                    
+                                    Spacer().frame(height: 32)
+                                    
+                                    Text("Available Value \(String(format: "%.2f", (Double(selectedFundAccount?.transactionUnits ?? "0") ?? 0.0) * (Double(selectedFundAccount?.redimPrice ?? "0") ?? 0.0)))")
+                                        .font(.system(size: 14))
+                                    
                                 }
                             }
                         }
@@ -197,8 +223,7 @@ struct RedeemScreen: View {
                         print("Form is not filled")
                         return
                     }
-                    
-                    print("Form is filled")
+                    coordinator.push(.redeemSummary)
                 }
             }
             .padding(.horizontal, 16)

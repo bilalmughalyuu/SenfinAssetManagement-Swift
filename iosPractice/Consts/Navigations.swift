@@ -4,6 +4,7 @@ enum LoginNavigation: Hashable {
     case home
     case invest(Datum)
     case redeem(Datum)
+    case redeemSummary
 }
 
 class NavigationCoordinator: ObservableObject {
