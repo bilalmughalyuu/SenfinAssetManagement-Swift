@@ -3,6 +3,8 @@ import SwiftUI
 
 struct TransactionsScreen: View {
     
+    @StateObject private var viewModel = TransactionsViewModel()
+    @EnvironmentObject var userViewModel: UserViewModel
     @State private var tab: Int = 0
     
     var body: some View {
@@ -53,13 +55,39 @@ struct TransactionsScreen: View {
             )
             .frame(maxWidth: .infinity)
             
+            Spacer().frame(height: 24)
+            
+            List(viewModel.transactions?.transactions.data ?? [], id: \.accountNo) { item in
+                
+                VStack{
+                    HStack {
+                        Text(item.accountNo ?? "")
+                        Spacer()
+                        Text(item.name ?? "")
+                    }
+                }
+                
+            }
+            .listStyle(PlainListStyle())
+            .scrollIndicators(.hidden)
+            .listRowSeparator(.hidden)
+            
             Spacer()
         }
         .padding(.horizontal, 24)
+        .task {
+            if let token = userViewModel.userModel?.accessToken {
+//                print("Calling fetchfunds with token: \(token)")
+                let result = await viewModel.fetchTransactions(token: token)
+                print(result)
+//                print("Fetch complete: \(result)")
+            }
+        }
         
     }
 }
 
 #Preview {
     TransactionsScreen()
+        .environmentObject(TransactionsViewModel())
 }

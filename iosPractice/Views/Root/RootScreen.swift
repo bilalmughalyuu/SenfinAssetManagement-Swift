@@ -11,7 +11,8 @@ struct RootScreen: View {
                     Text("Home")
                 }
             
-            SearchScreen()
+            TransactionsScreen()
+                .environmentObject(userViewModel)
                 .tabItem {
                     Label {
                         Text("Transactions")
@@ -42,15 +43,6 @@ struct RootScreen: View {
 #Preview {
     RootScreen()
         .environmentObject(UserViewModel())
-}
-
-struct SearchScreen: View {
-    var body: some View {
-        NavigationView {
-            Text("Search Screen")
-                .navigationTitle("Search")
-        }
-    }
 }
 
 struct NotificationsScreen: View {
