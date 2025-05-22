@@ -54,9 +54,7 @@ struct LoginView: View {
                 
                 Spacer().frame(height: 40)
                 
-                LoginWithEmail(navigateToHome: {
-                    coordinator.push(LoginNavigation.home)
-                })
+                LoginWithEmail()
                 
                 Spacer().frame(height: 40)
                 
@@ -73,8 +71,8 @@ struct LoginView: View {
             .padding(.horizontal, 24)
             .navigationDestination(for: LoginNavigation.self) { destination in
                 switch destination {
-                case .home:
-                    HomeView()
+                case .root:
+                    RootScreen()
                         .environmentObject(viewModel)
                         .navigationBarBackButtonHidden(true)
                 case .invest(let fund):
@@ -112,4 +110,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environmentObject(NavigationCoordinator())
 }

@@ -27,7 +27,6 @@ struct RedeemScreen: View {
         fund.accounts.forEach { account in
             cost += Double(account.cost) ?? 0.0
         }
-        print(cost)
         return cost
     }
     

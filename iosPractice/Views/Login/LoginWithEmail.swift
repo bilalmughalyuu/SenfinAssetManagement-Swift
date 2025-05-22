@@ -1,14 +1,13 @@
 import SwiftUI
 
 struct LoginWithEmail: View {
-    var navigateToHome: () -> Void
-    
     @State private var email: String = "jdeo50570@gmail.com"
     @State private var password: String = "Ranu1234@"
     @State private var isSubmitted = false
     @State private var showPassword = false
     
     @EnvironmentObject var viewModel: UserViewModel
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -74,7 +73,7 @@ struct LoginWithEmail: View {
                 
                 Task {
                     if let _ = await viewModel.loginUser(email: email, password: password) {
-                        navigateToHome()
+                        coordinator.push(LoginNavigation.root)
                     } else {
                         print("Login failed")
                     }
@@ -85,9 +84,7 @@ struct LoginWithEmail: View {
     }
 }
 
-//#Preview {
-//    LoginWithEmail(navigateToHome: {
-//        print("Navigate to home triggered in preview")
-//    })
-//    .environmentObject(UserViewModel())
-//}
+#Preview {
+    LoginWithEmail()
+        .environmentObject(UserViewModel())
+}

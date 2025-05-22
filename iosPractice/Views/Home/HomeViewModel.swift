@@ -28,9 +28,9 @@ class HomeViewModel: ObservableObject {
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
             
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("Raw JSON response: \(jsonString)")
-            }
+//            if let jsonString = String(data: data, encoding: .utf8) {
+//                print("Raw JSON response: \(jsonString)")
+//            }
             
 //            print(data, response)
 //            
@@ -40,7 +40,6 @@ class HomeViewModel: ObservableObject {
 //            }
             
             let decodedData = try JSONDecoder().decode(FundsModel.self, from: data)
-            print(decodedData)
             self.funds = decodedData
             self.isLoading = false
             return decodedData

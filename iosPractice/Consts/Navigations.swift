@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum LoginNavigation: Hashable {
-    case home
+    case root
     case invest(Datum)
     case redeem(Datum)
     case redeemSummary

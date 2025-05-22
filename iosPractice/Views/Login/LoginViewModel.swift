@@ -33,9 +33,9 @@ class UserViewModel: ObservableObject {
 
             let (data, _) = try await URLSession.shared.data(for: request)
 
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("Raw JSON Response: \(jsonString)")
-            }
+//            if let jsonString = String(data: data, encoding: .utf8) {
+//                print("Raw JSON Response: \(jsonString)")
+//            }
 
             let user = try JSONDecoder().decode(UserModel.self, from: data)
             self.userModel = user
