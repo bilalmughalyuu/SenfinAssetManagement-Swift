@@ -77,18 +77,6 @@ struct Account: Hashable, Codable, Identifiable {
         self.cost = cost
     }
     
-    enum CodingKeys: String, CodingKey {
-        case accountNo = "ACCOUNT_NO"
-        case blockNoOfUnit = "BLOCK_NO_OF_UNIT"
-        case pendingNoOfUnit = "PENDING_NO_OF_UNIT"
-        case noOfUnits = "NO_OF_UNITS"
-        case transactionUnits = "TRANSACTION_UNITS"
-        case redimPrice = "REDIM_PRICE"
-        case marketValue = "MARKET_VALUE"
-        case name = "NAME"
-        case cost = "COST"
-    }
-    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -102,8 +90,42 @@ struct Account: Hashable, Codable, Identifiable {
         marketValue = container.decodeString(forKey: .marketValue)
         cost = container.decodeString(forKey: .cost)
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case accountNo = "ACCOUNT_NO"
+        case blockNoOfUnit = "BLOCK_NO_OF_UNIT"
+        case pendingNoOfUnit = "PENDING_NO_OF_UNIT"
+        case noOfUnits = "NO_OF_UNITS"
+        case transactionUnits = "TRANSACTION_UNITS"
+        case redimPrice = "REDIM_PRICE"
+        case marketValue = "MARKET_VALUE"
+        case name = "NAME"
+        case cost = "COST"
+    }
 }
 
+var dummyData: Datum = Datum(
+    fundCode: "10",
+    fundName: "Senfin Growth Fund",
+    priceDate: "2024-09-05",
+    creationPrice: "14.370000",
+    redimPrice: "13.960000",
+    type: "2",
+    color: "#B40431",
+    accounts: [
+        Account(
+            accountNo: "0015602792121001",
+            blockNoOfUnit: "0.00",
+            pendingNoOfUnit: "0.00",
+            noOfUnits: "189.50",
+            transactionUnits: "189.50",
+            redimPrice: "13.96",
+            marketValue: "2645.42",
+            name: nil,
+            cost: "1500.00"
+        )
+    ]
+)
 
 extension KeyedDecodingContainer {
     func decodeString(forKey key: KeyedDecodingContainer.Key, decimalPlaces: Int = 2) -> String {

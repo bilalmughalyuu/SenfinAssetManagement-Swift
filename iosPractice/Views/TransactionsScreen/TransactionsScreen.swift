@@ -18,13 +18,14 @@ struct TransactionsScreen: View {
                 Button (action: {
                     
                 }){
-                    Image(systemName: "doc")
+                    Image("pdf")
                         .resizable()
                         .frame(width: 22, height: 22)
                         .foregroundColor(Color.brightRed)
                 }
                 
             }
+            .padding(.horizontal, 24)
             
             Spacer().frame(height: 24)
             
@@ -33,6 +34,7 @@ struct TransactionsScreen: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 8)
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(tab == 0 ? Color.white : Color.black)
                     .background(tab == 0 ? Color.primaryColor : Color.clear)
                     .cornerRadius(8)
                     .onTapGesture {
@@ -42,45 +44,41 @@ struct TransactionsScreen: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 8)
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(tab == 1 ? Color.white : Color.black)
                     .background(tab == 1 ? Color.primaryColor : Color.clear)
                     .cornerRadius(8)
                     .onTapGesture {
                         tab = 1
                     }
             }
-            
             .background(
                 Color.gray.opacity(0.2)
                 .cornerRadius(8)
             )
             .frame(maxWidth: .infinity)
+            .padding(.horizontal, 24)
             
             Spacer().frame(height: 24)
             
-            List(viewModel.transactions?.transactions.data ?? [], id: \.accountNo) { item in
+            let transactions = tab == 0
+                            ? (viewModel.transactions?.transactions.data ?? [])
+                            : (viewModel.transactions?.pendingTransactions.data ?? [])
+            
+            List(transactions, id: \.self) { item in
                 
-                VStack{
-                    HStack {
-                        Text(item.accountNo ?? "")
-                        Spacer()
-                        Text(item.name ?? "")
-                    }
-                }
+                TransactionRow(transaction: item, tab: tab)
+                    .buttonStyle(PlainButtonStyle())
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 
             }
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
-            .listRowSeparator(.hidden)
-            
-            Spacer()
         }
-        .padding(.horizontal, 24)
         .task {
             if let token = userViewModel.userModel?.accessToken {
-//                print("Calling fetchfunds with token: \(token)")
-                let result = await viewModel.fetchTransactions(token: token)
-                print(result)
-//                print("Fetch complete: \(result)")
+                let _ = await viewModel.fetchTransactions(token: token)
             }
         }
         
@@ -89,5 +87,5 @@ struct TransactionsScreen: View {
 
 #Preview {
     TransactionsScreen()
-        .environmentObject(TransactionsViewModel())
+        .environmentObject(UserViewModel())
 }

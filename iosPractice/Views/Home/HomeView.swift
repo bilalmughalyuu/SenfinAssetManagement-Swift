@@ -62,21 +62,17 @@ struct HomeView: View {
                     .buttonStyle(PlainButtonStyle())
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 
             }
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
-            .listRowSeparator(.hidden)
             
-            //            Spacer()
         }
         .edgesIgnoringSafeArea(.top)
         .task {
-            print("with love from .... \(String(describing: userViewModel.userModel?.accessToken))")
             if let token = userViewModel.userModel?.accessToken {
-                print("Calling fetchfunds with token: \(token)")
                 let result = await viewModel.fetchfunds(token: token)
-                print("Fetch complete: \(result)")
             }
         }
     }

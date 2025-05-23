@@ -46,18 +46,18 @@ struct Transactions: Hashable, Codable, Identifiable {
 
 struct TransactionModel: Hashable, Codable, Identifiable {
     let id = UUID()
-    let transactionDate: String
-    let fundName: String
-    let amount: String
-    let noOfUnits: String
-    let status: String
-    let name: String
-    let sqNo: String
-    let transNo: String
-    let accountNo: String
-    let transactedUnits: String
-    let offerBidPrice: String
-    let amountApplied: String
+    let transactionDate: String?
+    let fundName: String?
+    let amount: String?
+    let noOfUnits: String?
+    let status: String?
+    let name: String?
+    let sqNo: String?
+    let transNo: String?
+    let accountNo: String?
+    let transactedUnits: String?
+    let offerBidPrice: String?
+    let amountApplied: String?
     
     enum CodingKeys: String, CodingKey {
         case transactionDate = "TRANSACTION_DATE"
@@ -73,26 +73,34 @@ struct TransactionModel: Hashable, Codable, Identifiable {
         case offerBidPrice = "OFFER_BID_PRICE"
         case amountApplied = "AMOUNT_APPLIED"
     }
-
     
-//    init(
-//        transactionDate: String?, fundName: String?, amount: String?, noOfUnits: String, status: String, name: String?,
-//        sqNo: String?, transNo: String?, accountNo: String?, transactedUnits: String?, offerBidPrice: String?, amountApplied: String?
-//    ) {
-//        self.transactionDate = transactionDate
-//        self.fundName = fundName
-//        self.amount = amount
-//        self.noOfUnits = noOfUnits
-//        self.status = status
-//        self.name = name
-//        self.sqNo = sqNo
-//        self.transNo = transNo
-//        self.accountNo = accountNo
-//        self.transactedUnits = transactedUnits
-//        self.offerBidPrice = offerBidPrice
-//        self.amountApplied = amountApplied
-//    }
-    
+    init(
+        transactionDate: String?,
+        fundName: String?,
+        amount: String?,
+        noOfUnits: String?,
+        status: String?,
+        name: String?,
+        sqNo: String?,
+        transNo: String?,
+        accountNo: String?,
+        transactedUnits: String?,
+        offerBidPrice: String?,
+        amountApplied: String?
+    ) {
+        self.transactionDate = transactionDate
+        self.fundName = fundName
+        self.amount = amount
+        self.noOfUnits = noOfUnits
+        self.status = status
+        self.name = name
+        self.sqNo = sqNo
+        self.transNo = transNo
+        self.accountNo = accountNo
+        self.transactedUnits = transactedUnits
+        self.offerBidPrice = offerBidPrice
+        self.amountApplied = amountApplied
+    }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -112,18 +120,18 @@ struct TransactionModel: Hashable, Codable, Identifiable {
     }
 }
 
-//var dummyTransactionData: TransactionModel = TransactionModel(
-//    transactionDate: "2025-05-21T06:45:43.000000Z",
-//    name: "Subscription",
-//    sqNo: "-1",
-//    transNo: "122",
-//    accountNo: "0015602792121001",
-//    transactedUnits: "-43.30",
-//    offerBidPrice: "23.142400",
-//    amountApplied: "1002.07",
-//    fundName: "Senfin Growth Fund",
-//    amount: "3000.00",
-//    noOfUnits: nil,
-//    status: 0
-//)
+var dummyTransactionData = TransactionModel(
+    transactionDate: "2025-05-21T06:45:43.000000Z",
+    fundName: "Senfin Growth Fund",
+    amount: "3000.00",
+    noOfUnits: nil,
+    status: "0",
+    name: "Subscription",
+    sqNo: "-1",
+    transNo: "122",
+    accountNo: "0015602792121001",
+    transactedUnits: "-43.30",
+    offerBidPrice: "23.142400",
+    amountApplied: "1002.07"
+)
 

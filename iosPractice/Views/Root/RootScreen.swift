@@ -7,33 +7,39 @@ struct RootScreen: View {
             HomeView()
                 .environmentObject(userViewModel)
                 .tabItem {
-                    Image(systemName: "house")
+                    Image("home")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color.black)
                     Text("Home")
                 }
             
             TransactionsScreen()
                 .environmentObject(userViewModel)
                 .tabItem {
-                    Label {
-                        Text("Transactions")
-                    } icon: {
-                        Image(systemName: "creditcard.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(Color.primaryColor)
-                    }
+                    Image("transactions")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color.white)
+                    Text("Transactions")
+                    
                 }
             
             NotificationsScreen()
                 .tabItem {
-                    Image(systemName: "bell")
-                    Text("Notifications")
+                    Image("switch")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color.white)
+                    Text("Switch")
                 }
             
-            ProfileScreen()
+            ProfileView()
                 .tabItem {
-                    Image(systemName: "person.crop.circle")
+                    Image("profile")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color.white)
                     Text("Profile")
                 }
         }
@@ -50,15 +56,6 @@ struct NotificationsScreen: View {
         NavigationView {
             Text("Notifications Screen")
                 .navigationTitle("Notifications")
-        }
-    }
-}
-
-struct ProfileScreen: View {
-    var body: some View {
-        NavigationView {
-            Text("Profile Screen")
-                .navigationTitle("Profile")
         }
     }
 }
