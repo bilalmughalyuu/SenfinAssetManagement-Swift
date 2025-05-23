@@ -72,7 +72,7 @@ struct HomeView: View {
         .edgesIgnoringSafeArea(.top)
         .task {
             if let token = userViewModel.userModel?.accessToken {
-                let result = await viewModel.fetchfunds(token: token)
+                let _ = await viewModel.fetchfunds(token: token)
             }
         }
     }

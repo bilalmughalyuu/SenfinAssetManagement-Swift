@@ -22,6 +22,8 @@ struct RedeemSummary: View {
     @State private var isChecked: Bool = false
     @State private var isSubmitted: Bool = false
     
+    @EnvironmentObject var coordinator: NavigationCoordinator
+    
     var body: some View {
         VStack (alignment: .leading){
             HStack() {
@@ -103,7 +105,7 @@ struct RedeemSummary: View {
                     print("Form is not filled")
                     return
                 }
-//                coordinator.push(.redeemSummary)
+                coordinator.push(.otpScreen)
             }
             
             
@@ -111,6 +113,7 @@ struct RedeemSummary: View {
             Spacer()
         }
         .padding(.horizontal, 24)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

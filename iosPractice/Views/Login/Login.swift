@@ -81,6 +81,8 @@ struct LoginView: View {
                     RedeemScreen(fund: fund)
                 case .redeemSummary:
                     RedeemSummary()
+                case .otpScreen:
+                    OTPScreen()
                 }
             }
             .overlay {
