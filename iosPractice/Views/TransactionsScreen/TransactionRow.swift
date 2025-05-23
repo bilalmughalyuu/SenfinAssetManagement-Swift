@@ -38,7 +38,7 @@ struct TransactionRow: View {
                     HStack {
                         Text("Amount (LKR):")
                         Spacer()
-                        Text(transaction.amount ?? "-")
+                        Text(transaction.amountApplied ?? "-")
                     }
                 }
                 

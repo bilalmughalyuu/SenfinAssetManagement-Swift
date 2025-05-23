@@ -25,7 +25,7 @@ struct RootScreen: View {
                     
                 }
             
-            NotificationsScreen()
+            SwitchScreen()
                 .tabItem {
                     Image("switch")
                         .resizable()
@@ -50,13 +50,3 @@ struct RootScreen: View {
     RootScreen()
         .environmentObject(UserViewModel())
 }
-
-struct NotificationsScreen: View {
-    var body: some View {
-        NavigationView {
-            Text("Notifications Screen")
-                .navigationTitle("Notifications")
-        }
-    }
-}
-
