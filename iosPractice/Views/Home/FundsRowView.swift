@@ -49,6 +49,7 @@ struct FundRowView: View {
                     VStack(alignment: .leading) {
                         Text("Buy at \(String(format: "%.2f", Double(fund.creationPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color.secondaryColor)
                         
                         Button {
                             coordinator.push(.invest(fund))
@@ -56,9 +57,9 @@ struct FundRowView: View {
                             Text("Invest")
                                 .foregroundColor(Color.white)
                                 .font(.caption)
-                                .padding(.horizontal, 24)
-                                .padding(.vertical, 6)
-                                .background(Color(hex: "#2a6877"))
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 8)
+                                .background(Color.secondaryColor)
                                 .cornerRadius(8)
                         }
                     }
@@ -68,6 +69,7 @@ struct FundRowView: View {
                     VStack(alignment: .leading) {
                         Text("Sell at \(String(format: "%.2f", Double(fund.redimPrice) ?? 0.0))")
                             .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color.redColor)
                         
                         Button {
                             guard totalMarketValue > 0 else { return }
@@ -76,10 +78,10 @@ struct FundRowView: View {
                             Text("Redeem")
                                 .foregroundColor(.white)
                                 .font(.caption)
-                                .padding(.horizontal, 24)
-                                .padding(.vertical, 6)
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 8)
                                 .disabled(totalMarketValue == 0)
-                                .background(totalMarketValue == 0 ? Color.disableRed : Color.red)
+                                .background(totalMarketValue == 0 ? Color.disableRed : Color.redColor)
                                 .cornerRadius(8)
                         }
                     }
