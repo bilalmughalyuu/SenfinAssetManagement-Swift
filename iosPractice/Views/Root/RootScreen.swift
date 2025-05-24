@@ -40,6 +40,7 @@ struct RootScreen: View {
                     Text("Profile")
                 }
         }
+        .accentColor(Color.primaryColor)
     }
 }
 

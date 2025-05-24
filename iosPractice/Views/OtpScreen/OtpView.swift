@@ -77,7 +77,6 @@ struct OTPScreen: View {
                 focusedIndex = 0
             }
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 

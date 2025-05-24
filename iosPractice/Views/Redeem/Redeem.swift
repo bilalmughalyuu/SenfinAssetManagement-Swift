@@ -227,7 +227,6 @@ struct RedeemScreen: View {
             }
             .padding(.horizontal, 16)
         }
-        .navigationBarBackButtonHidden(true)
         .onAppear {
             accountNumbers = fund.accounts.map { $0.accountNo }
         }

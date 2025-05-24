@@ -113,7 +113,6 @@ struct RedeemSummary: View {
             Spacer()
         }
         .padding(.horizontal, 24)
-        .navigationBarBackButtonHidden(true)
     }
 }
 

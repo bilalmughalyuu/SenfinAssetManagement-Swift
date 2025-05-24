@@ -14,14 +14,19 @@ struct ContentView: View {
                             .navigationBarBackButtonHidden(true)
                     case .invest(let fund):
                         InvestScreen(fund: fund)
+                            .navigationBarBackButtonHidden(true)
                     case .redeem(let fund):
                         RedeemScreen(fund: fund)
+                            .navigationBarBackButtonHidden(true)
                     case .redeemSummary:
                         RedeemSummary()
+                            .navigationBarBackButtonHidden(true)
                     case .otpScreen:
                         OTPScreen()
+                            .navigationBarBackButtonHidden(true)
                     }
                 }
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
