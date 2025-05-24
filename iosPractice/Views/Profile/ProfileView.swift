@@ -40,7 +40,7 @@ struct ProfileView: View {
                     Spacer().frame(height: 8)
                     Text("+971553420018")
                     Spacer().frame(height: 8)
-                    Text("jdeo50570@gmail.com")
+                    Text(verbatim: "jdeo50570@gmail.com")
                 }
             }
             .padding(.vertical, 40)

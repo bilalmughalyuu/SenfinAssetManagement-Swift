@@ -85,7 +85,9 @@ struct TransactionsScreen: View {
                 
             }
             
-            CustomModalView(isVisible: $showModal)
+            if showModal {
+                CustomModalView(isVisible: $showModal)
+            }
         }
         .task {
             if let token = userViewModel.userModel?.accessToken {
@@ -107,16 +109,15 @@ struct CustomModalView: View {
     var body: some View {
         if isVisible {
             ZStack {
+                // Dark overlay background
                 Color.black.opacity(0.4)
-                    .ignoresSafeArea()
                     .onTapGesture {
-                        withAnimation {
-                            isVisible = false
-                        }
+                        isVisible = false
+                        
                     }
                 
-                VStack() {
-                    
+                // Modal content
+                VStack {
                     Text("TRANSACTION REPORT")
                         .font(.system(size: 20, weight: .bold))
                     
@@ -125,18 +126,16 @@ struct CustomModalView: View {
                     Text(verbatim: """
                     Disclaimer:- This is a Transaction Report being generated through the ONLINE PORTAL of the web application and not a Verified Statement of the Client's account. For a Statement of your account, please send a 'Statement Request' to Registrar - Senfin Asset Management (Pvt) Ltd. This request can be sent through the ONLINE PORTAL or through an email to sfam.info@senfin.com.
                     """)
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
                     
                     Spacer().frame(height: 32)
-
-                    HStack{
+                    
+                    HStack {
                         Button("Close") {
-                            withAnimation {
-                                isVisible = false
-                            }
+                            isVisible = false
                         }
                         .padding(.vertical, 6)
                         .frame(maxWidth: .infinity)
@@ -147,16 +146,13 @@ struct CustomModalView: View {
                         Spacer().frame(width: 16)
                         
                         Button("Download") {
-                            withAnimation {
-                                isVisible = false
-                            }
+                            
                         }
                         .padding(.vertical, 6)
                         .frame(maxWidth: .infinity)
                         .background(Color.primaryColor)
                         .foregroundColor(Color.white)
                         .cornerRadius(8)
-                        
                     }
                 }
                 .padding()
@@ -167,8 +163,9 @@ struct CustomModalView: View {
                 .animation(.easeInOut, value: isVisible)
                 .padding(.horizontal, 24)
             }
-            .frame(maxHeight: .infinity)
+            .ignoresSafeArea()
         }
     }
 }
+
 
