@@ -1,11 +1,9 @@
 import SwiftUI
 
 struct RootScreen: View {
-    @EnvironmentObject var userViewModel: UserViewModel
     var body: some View {
         TabView {
             HomeView()
-                .environmentObject(userViewModel)
                 .tabItem {
                     Image("home")
                         .resizable()
@@ -15,7 +13,6 @@ struct RootScreen: View {
                 }
             
             TransactionsScreen()
-                .environmentObject(userViewModel)
                 .tabItem {
                     Image("transactions")
                         .resizable()
@@ -48,5 +45,4 @@ struct RootScreen: View {
 
 #Preview {
     RootScreen()
-        .environmentObject(UserViewModel())
 }

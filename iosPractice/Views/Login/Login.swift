@@ -73,7 +73,6 @@ struct LoginView: View {
                 switch destination {
                 case .root:
                     RootScreen()
-                        .environmentObject(viewModel)
                         .navigationBarBackButtonHidden(true)
                 case .invest(let fund):
                     InvestScreen(fund: fund)
@@ -106,7 +105,6 @@ struct LoginView: View {
                 }
             }
         }
-        .environmentObject(viewModel)
     }
 }
 
