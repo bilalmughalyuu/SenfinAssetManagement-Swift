@@ -2,7 +2,6 @@ import SwiftUI
 
 struct RedeemScreen: View {
     let fund: Datum
-    @Environment(\.dismiss) private var dismiss
     
     @State private var selectedAccount: String = ""
     @State private var accountNumbers: [String] = []
@@ -43,7 +42,7 @@ struct RedeemScreen: View {
             VStack (alignment: .leading){
                 HStack {
                     Button (action: {
-                        dismiss()
+                        coordinator.pop()
                     }){
                         Image("backButton")
                             .resizable()

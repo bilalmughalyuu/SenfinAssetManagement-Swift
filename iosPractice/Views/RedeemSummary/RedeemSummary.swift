@@ -18,7 +18,6 @@ struct rowElement: View {
 }
 
 struct RedeemSummary: View {
-    @Environment(\.dismiss) private var dismiss
     @State private var isChecked: Bool = false
     @State private var isSubmitted: Bool = false
     
@@ -28,7 +27,7 @@ struct RedeemSummary: View {
         VStack (alignment: .leading){
             HStack() {
                 Button {
-                    dismiss()
+                    coordinator.pop()
                 } label: {
                     Image("backButton")
                 }

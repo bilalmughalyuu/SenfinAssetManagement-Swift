@@ -4,14 +4,14 @@ struct OTPScreen: View {
     @State private var otp: [String] = Array(repeating: "", count: 6)
     @FocusState private var focusedIndex: Int?
     
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var coordinator: NavigationCoordinator
 
     var body: some View {
         ScrollView{
             VStack(alignment: .leading) {
                 HStack() {
                     Button {
-                        dismiss()
+                        coordinator.pop()
                     } label: {
                         Image("backButton")
                     }

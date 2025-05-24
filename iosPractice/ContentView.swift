@@ -28,6 +28,9 @@ struct ContentView: View {
                 }
                 .navigationBarBackButtonHidden(true)
         }
+        .onChange(of: coordinator.path) {
+            
+        }
     }
 }
 
