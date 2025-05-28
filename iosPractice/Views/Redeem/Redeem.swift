@@ -49,7 +49,7 @@ struct RedeemScreen: View {
                             .frame(width: 22, height: 22)
                     }
                     Spacer().frame(width: 16)
-                    Text("Redeem Fund")
+                    Text("Switch Fund")
                         .font(.system(size: 18, weight: .bold))
                 }
                 

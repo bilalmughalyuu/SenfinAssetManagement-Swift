@@ -116,7 +116,7 @@ struct FundRowView: View {
 }
 
 #Preview("Single Fund Row") {
-    @State var showError = false
+    @Previewable @State var showError = false
     return FundRowView(
         fund: dummyData,
         showError: $showError

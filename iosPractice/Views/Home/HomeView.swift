@@ -11,95 +11,94 @@ struct HomeView: View {
     
     var body: some View {
         let data = viewModel.funds?.data ?? []
-        ZStack{
-            VStack{
-                VStack(spacing: 8) {
-                    Spacer().frame(height: 32)
-                    Image("colorLogo")
-                        .resizable()
-                        .frame(width: 188, height: 46)
+        
+        VStack{
+            VStack(spacing: 8) {
+                Spacer().frame(height: 32)
+                Image("colorLogo")
+                    .resizable()
+                    .frame(width: 188, height: 46)
+                
+                Spacer().frame(height: 16)
+                
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading) {
+                        Text("Fixed Income")
+                            .font(.subheadline)
+                            .foregroundColor(Color(hex: "#2a6877"))
+                        
+                        Spacer().frame(height: 4)
+                        
+                        Text("149,863")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
                     
-                    Spacer().frame(height: 16)
+                    Spacer().frame(width: 16)
                     
-                    HStack(alignment: .center) {
-                        VStack(alignment: .leading) {
-                            Text("Fixed Income")
-                                .font(.subheadline)
-                                .foregroundColor(Color(hex: "#2a6877"))
-                            
-                            Spacer().frame(height: 4)
-                            
-                            Text("149,863")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.black)
-                        }
+                    Rectangle()
+                        .frame(width: 1, height: 35)
+                        .foregroundColor(Color.black.opacity(0.3))
+                    
+                    Spacer().frame(width: 16)
+                    
+                    VStack(alignment: .leading) {
+                        Text("Equity")
+                            .font(.subheadline)
+                            .foregroundColor(Color(hex: "#2a6877"))
                         
-                        Spacer().frame(width: 16)
+                        Spacer().frame(height: 4)
                         
-                        Rectangle()
-                            .frame(width: 1, height: 35)
-                            .foregroundColor(Color.black.opacity(0.3))
-                        
-                        Spacer().frame(width: 16)
-                        
-                        VStack(alignment: .leading) {
-                            Text("Equity")
-                                .font(.subheadline)
-                                .foregroundColor(Color(hex: "#2a6877"))
-                            
-                            Spacer().frame(height: 4)
-                            
-                            Text("3650.42")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.black)
-                        }
+                        Text("3650.42")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.black)
                     }
                 }
-                .frame(height: 240)
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
-                .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
-                
-                List(data, id: \.fundCode) { item in
-                    FundRowView(fund: item, showError: $showError)
-                        .buttonStyle(PlainButtonStyle())
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                    
-                }
-                .listStyle(PlainListStyle())
-                .scrollIndicators(.hidden)
+            }
+            .frame(height: 240)
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
+            .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
+            .shadow(color: Color.black.opacity(0.16), radius: 20, x: 0, y: 1)
+            
+            List(data, id: \.fundCode) { item in
+                FundRowView(fund: item, showError: $showError)
+                    .buttonStyle(PlainButtonStyle())
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 
             }
-            if showError {
-                
-                //                VStack {
-                //                    FlushbarView(
-                //                        message: "Not enough funds to withdraw!",
-                //                        backgroundColor: .red
-                //                    )
-                //                    .transition(.move(edge: .top).combined(with: .opacity))
-                //                    .onAppear {
-                //                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                //                            withAnimation {
-                //                                showError = false
-                //                            }
-                //                        }
-                //                    }
-                //                    Spacer()
-                //                }
-                //                .frame(maxHeight: .infinity)
-            }
+            .listStyle(PlainListStyle())
+            .scrollIndicators(.hidden)
+            
         }
-        .toast(isPresenting: $showError) {
+        //        if showError {
+        //            VStack {
+        //                FlushbarView(
+        //                    message: "Not enough funds to withdraw!",
+        //                    backgroundColor: .red
+        //                )
+        //                .transition(.move(edge: .top).combined(with: .opacity))
+        //                .onAppear {
+        //                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        //                        withAnimation {
+        //                            showError = false
+        //                        }
+        //                    }
+        //                }
+        //                Spacer()
+        //            }
+        //            .frame(maxHeight: .infinity)
+        //        }
+        
+        .toast(isPresenting: $showError, offsetY: 12) {
             AlertToast(
                 displayMode: .hud,
                 type: .regular,
                 title: "Not enough credit to withdraw",
                 style: .style(
-                    backgroundColor: .red,
+                    backgroundColor: Color.redColor,
                     titleColor: .white
                 )
             )

@@ -28,9 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CE329AEC2DD668D800722E13 /* iosPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE329AFC2DD668D900722E13 /* iosPracticeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosPracticeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE329B062DD668D900722E13 /* iosPracticeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosPracticeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE329AEC2DD668D800722E13 /* iosPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = iosPractice.app; path = "/Users/muhammadbilal/Downloads/iosPractice/build/Debug-iphoneos/iosPractice.app"; sourceTree = "<absolute>"; };
+		CE329AFC2DD668D900722E13 /* iosPracticeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = iosPracticeTests.xctest; path = "/Users/muhammadbilal/Downloads/iosPractice/build/Debug-iphoneos/iosPractice.app/PlugIns/iosPracticeTests.xctest"; sourceTree = "<absolute>"; };
+		CE329B062DD668D900722E13 /* iosPracticeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = iosPracticeUITests.xctest; path = "/Users/muhammadbilal/Downloads/iosPractice/build/Debug-iphoneos/iosPracticeUITests-Runner.app/PlugIns/iosPracticeUITests.xctest"; sourceTree = "<absolute>"; };
 		CE78A2A02DE72AAE00EADC4F /* AlertToast */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AlertToast; path = "/Users/muhammadbilal/Library/Developer/Xcode/DerivedData/iosPractice-abgavwnbqfhjrqcdxtzlohiwxzxr/SourcePackages/checkouts/AlertToast"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -84,19 +84,8 @@
 				CE329AEE2DD668D800722E13 /* iosPractice */,
 				CE329AFF2DD668D900722E13 /* iosPracticeTests */,
 				CE329B092DD668D900722E13 /* iosPracticeUITests */,
-				CE329AED2DD668D800722E13 /* Products */,
 				CE78A2A02DE72AAE00EADC4F /* AlertToast */,
 			);
-			sourceTree = "<group>";
-		};
-		CE329AED2DD668D800722E13 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CE329AEC2DD668D800722E13 /* iosPractice.app */,
-				CE329AFC2DD668D900722E13 /* iosPracticeTests.xctest */,
-				CE329B062DD668D900722E13 /* iosPracticeUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,7 +196,7 @@
 				CE78A29F2DE72A8C00EADC4F /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = CE329AED2DD668D800722E13 /* Products */;
+			productRefGroup = CE329AE32DD668D800722E13;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

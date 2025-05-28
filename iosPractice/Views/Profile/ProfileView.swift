@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var coordinator: NavigationCoordinator
     var body: some View {
         VStack(alignment: .leading){
             
@@ -11,7 +12,7 @@ struct ProfileView: View {
                 Spacer()
                 
                 Button (action: {
-                    
+                    coordinator.push(.support)
                 }){
                     Image("support")
                         .resizable()
@@ -85,6 +86,7 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(NavigationCoordinator())
 }
 
 

@@ -25,6 +25,9 @@ struct ContentView: View {
                     case .otpScreen:
                         OTPScreen()
                             .navigationBarBackButtonHidden(true)
+                    case .support:
+                        Support()
+                            .navigationBarBackButtonHidden(true)
                     }
                 }
                 .navigationBarBackButtonHidden(true)
