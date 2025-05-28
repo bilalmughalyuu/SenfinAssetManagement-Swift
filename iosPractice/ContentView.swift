@@ -7,6 +7,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             LoginView()
+                .toolbar(.hidden, for: .navigationBar)
                 .navigationDestination(for: LoginNavigation.self) { destination in
                     switch destination {
                     case .root:

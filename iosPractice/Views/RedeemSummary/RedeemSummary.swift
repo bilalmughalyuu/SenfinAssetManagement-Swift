@@ -20,7 +20,6 @@ struct rowElement: View {
 struct RedeemSummary: View {
     @State private var isChecked: Bool = false
     @State private var isSubmitted: Bool = false
-    
     @EnvironmentObject var coordinator: NavigationCoordinator
     
     var body: some View {

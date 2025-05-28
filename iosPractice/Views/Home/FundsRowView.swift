@@ -3,6 +3,7 @@ import SwiftUI
 struct FundRowView: View {
     let fund: Datum
     @EnvironmentObject var coordinator: NavigationCoordinator
+    @Binding var showError: Bool
     
     var totalCost: Double {
         var cost = 0.0
@@ -72,7 +73,10 @@ struct FundRowView: View {
                             .foregroundColor(Color.redColor)
                         
                         Button {
-                            guard totalMarketValue > 0 else { return }
+                            guard totalMarketValue > 0 else {
+                                showError = true
+                                return
+                            }
                             coordinator.push(.redeem(fund))
                         } label: {
                             Text("Redeem")
@@ -112,8 +116,10 @@ struct FundRowView: View {
 }
 
 #Preview("Single Fund Row") {
-    FundRowView(
-        fund: dummyData
+    @State var showError = false
+    return FundRowView(
+        fund: dummyData,
+        showError: $showError
     )
 }
 
