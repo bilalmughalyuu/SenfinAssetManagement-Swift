@@ -17,6 +17,8 @@ struct Support: View {
     @State private var showDocumentPicker = false
     @State private var selectedFileURL: URL?
     
+    @State var isShowing = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -82,8 +84,23 @@ struct Support: View {
                     .stroke(Color.gray.opacity(0.5), lineWidth: 1)
             )
             .onTapGesture {
-                showDocumentPicker = true
+                isShowing = true
             }
+            .fileImporter(isPresented: $isShowing, allowedContentTypes: [.item], allowsMultipleSelection: true, onCompletion: { results in
+                
+                switch results {
+                case .success(let fileurls):
+                    
+                    for fileurl in fileurls {
+                        selectedFileURL = fileurl
+                        print(fileurl.path)
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+                
+            })
             
             Spacer().frame(height: 32)
             
@@ -94,11 +111,17 @@ struct Support: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .onTapGesture {
                         if let url = selectedFileURL {
-                            print("Trying to open:", url)
                             if FileManager.default.fileExists(atPath: url.path) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                // Request to open the file
+                                UIApplication.shared.open(url, options: [:], completionHandler: { success in
+                                    if success {
+                                        print("Opened file successfully")
+                                    } else {
+                                        print("Failed to open file")
+                                    }
+                                })
                             } else {
-                                print("File does not exist at path:", url.path)
+                                print("File does not exist at path: \(url.path)")
                             }
                         }
                     }
@@ -127,11 +150,11 @@ struct Support: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.horizontal, 24)
-        .sheet(isPresented: $showDocumentPicker) {
-            DocumentPicker { url in
-                selectedFileURL = url
-            }
-        }
+        //        .sheet(isPresented: $showDocumentPicker) {
+        //            DocumentPicker { url in
+        //                selectedFileURL = url
+        //            }
+        //        }
     }
     
 }
@@ -141,38 +164,38 @@ struct Support: View {
 //        .environmentObject(NavigationCoordinator())
 //}
 
-struct DocumentPicker: UIViewControllerRepresentable {
-    var onPick: (URL) -> Void
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(onPick: onPick)
-    }
-
-    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .item])
-        controller.delegate = context.coordinator
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
-
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        let onPick: (URL) -> Void
-
-        init(onPick: @escaping (URL) -> Void) {
-            self.onPick = onPick
-        }
-
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            if let url = urls.first {
-                // Start security-scoped access
-                if url.startAccessingSecurityScopedResource() {
-                    onPick(url)
-                    // Optionally, call stopAccessingSecurityScopedResource() later after you're done
-                } else {
-                    print("Couldn't access file")
-                }
-            }
-        }
-    }
-}
+//struct DocumentPicker: UIViewControllerRepresentable {
+//    var onPick: (URL) -> Void
+//
+//    func makeCoordinator() -> Coordinator {
+//        return Coordinator(onPick: onPick)
+//    }
+//
+//    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+//        let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .item])
+//        controller.delegate = context.coordinator
+//        return controller
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
+//
+//    class Coordinator: NSObject, UIDocumentPickerDelegate {
+//        let onPick: (URL) -> Void
+//
+//        init(onPick: @escaping (URL) -> Void) {
+//            self.onPick = onPick
+//        }
+//
+//        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//            if let url = urls.first {
+//                // Start security-scoped access
+//                if url.startAccessingSecurityScopedResource() {
+//                    onPick(url)
+//                    // Optionally, call stopAccessingSecurityScopedResource() later after you're done
+//                } else {
+//                    print("Couldn't access file")
+//                }
+//            }
+//        }
+//    }
+//}
