@@ -1,5 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct Support: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
@@ -14,7 +13,6 @@ struct Support: View {
         "Lock"
     ]
     @State private var description: String = ""
-    @State private var showDocumentPicker = false
     @State private var selectedFileURL: URL?
     
     @State var isShowing = false
@@ -104,25 +102,33 @@ struct Support: View {
             
             Spacer().frame(height: 32)
             
-            if let url = selectedFileURL {
+            if let url: URL = selectedFileURL {
                 Text("\(url.lastPathComponent)")
                     .underline(true)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
                     .onTapGesture {
                         if let url = selectedFileURL {
+                            print("File path: \(url.path)")
+                            print("File extension: \(url.pathExtension)")
                             if FileManager.default.fileExists(atPath: url.path) {
-                                // Request to open the file
-                                UIApplication.shared.open(url, options: [:], completionHandler: { success in
-                                    if success {
-                                        print("Opened file successfully")
-                                    } else {
-                                        print("Failed to open file")
-                                    }
-                                })
+                                if url.startAccessingSecurityScopedResource() {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: { success in
+                                        if success {
+                                            print("Opened file successfully")
+                                        } else {
+                                            print("Failed to open file")
+                                        }
+                                        url.stopAccessingSecurityScopedResource()
+                                    })
+                                } else {
+                                    print("Could not access security scoped resource")
+                                }
                             } else {
                                 print("File does not exist at path: \(url.path)")
                             }
+                            
+                            
                         }
                     }
             }
@@ -162,40 +168,4 @@ struct Support: View {
 //#Preview {
 //    Support(selectedFileURL: URL(fileURLWithPath: "/dev/null"))
 //        .environmentObject(NavigationCoordinator())
-//}
-
-//struct DocumentPicker: UIViewControllerRepresentable {
-//    var onPick: (URL) -> Void
-//
-//    func makeCoordinator() -> Coordinator {
-//        return Coordinator(onPick: onPick)
-//    }
-//
-//    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-//        let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .item])
-//        controller.delegate = context.coordinator
-//        return controller
-//    }
-//
-//    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
-//
-//    class Coordinator: NSObject, UIDocumentPickerDelegate {
-//        let onPick: (URL) -> Void
-//
-//        init(onPick: @escaping (URL) -> Void) {
-//            self.onPick = onPick
-//        }
-//
-//        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-//            if let url = urls.first {
-//                // Start security-scoped access
-//                if url.startAccessingSecurityScopedResource() {
-//                    onPick(url)
-//                    // Optionally, call stopAccessingSecurityScopedResource() later after you're done
-//                } else {
-//                    print("Couldn't access file")
-//                }
-//            }
-//        }
-//    }
 //}
